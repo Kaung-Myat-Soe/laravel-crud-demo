@@ -9,7 +9,7 @@
         <img   class="c-img" src="" alt="">
         
             <img id="pi"  class="img " src="{{ asset($product->pfimage) }}" alt="Profile">  
-           <a href="./pfchange.blade.php" class="pf_chng_btn">
+           <a href="{{ route('products.pfchange',$product->id) }}" class="pf_chng_btn">
             pf
            </a>
             
