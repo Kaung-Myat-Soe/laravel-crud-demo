@@ -15,7 +15,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::latest()->paginate(20);
+        $products = Product::latest()->paginate(200000);
 
         return view('products.index',compact('products'))->with(request()->input('page'));
     }
@@ -30,24 +30,58 @@ class ProductController extends Controller
         return view('products.create');
     }
 
+    public function pfchange(Product $product)
+    {
+        return view('products.pfchange',compact('product'));
+    }
+
+   
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function pfimage(Request $request)
+    {
+        $request->validate([
+            
+            'pfimage' => 'required',
+        ]);
+
+        $requestData = $request->all();
+        $fileName = time().$request->file('pfimage')->getClientOriginalName();
+        $path = $request->file('pfimage')->move($fileName, '/public/images');
+        $requestData["pfimage"] =$path;
+       
+        
+        Product::create($requestData);
+      
+       
+        //Redirect to home
+        return redirect()->route('products.show')->with('success', 'Product created successfully'); 
+    }
     public function store(Request $request)
     {
         //Validate the input
 
         $request->validate([
             'name' => 'required',
-            'detail' => 'required'
+            'detail' => 'required',
+            'image' => 'required',
         ]);
 
         //Create new products
-        Product::create($request->all());
-
+        $requestData = $request->all();
+        $fileName = time().$request->file('image')->getClientOriginalName();
+        $path = $request->file('image')->move($fileName, '/public/images');
+        $requestData["image"] =$path;
+       
+        
+        Product::create($requestData);
+      
+       
         //Redirect to home
         return redirect()->route('products.index')->with('success', 'Product created successfully'); 
     }

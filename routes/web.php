@@ -19,3 +19,5 @@ Route::get('/', function () {
 });
 
 Route::resource('products', ProductController::class);
+
+// Route::get('image-upload', [ ImageUploadController::class, 'imageUpload' ])->name('image.upload');
