@@ -1,27 +1,31 @@
-@extends('products.layout')
+@extends('posts.layout')
 
 @section('content')
     
-<a href="{{ route('products.index') }}">Back</a> 
+<a href="{{ route('posts.index') }}">Back</a> 
     <div id="P2"   class="P_2" >
+       
+          
       <div id="C2"  class="C_1 card_1">
-    
-        <img   class="c-img" src="" alt="">
         
+        <img   class="c-img" src="" alt="">
+     
+          
+        <a href="{{ route('profiles.create') }}" class="pf_chng_btn">
+          <p>+</p> 
+           </a>
             <img id="pi"  class="img " 
             @foreach ($profiles as $profile )
-                         src="{{ asset($profile->pfimage) }}" 
-                         @endforeach alt="Profile">  
-           <a href="{{ route('profiles.create') }}" class="pf_chng_btn">
-            pf
-           </a>
+            src="{{ asset($profile->pfimage) }}"
+            @endforeach alt="Profile">  
+          
             
        
-       
+            
         <p id="name"  class=" u_n">
-            {{ $product->name }}
-           
+           Kaung Myat Soe
             </p>
+            
         <div  class="p-d">
             
             <div  class="cc bt b-d">Delete</div>
@@ -144,17 +148,19 @@
                 </div>
             </div>
             
+            @foreach ($posts as $post )
             <div  class="posts">
                 <div  class="all_post">
            
                     <div  class="all_p_owner">
-                        <img  class="p_o_p" 
+                        
+                        <img  class="p_o_p"
                         @foreach ($profiles as $profile )
                          src="{{ asset($profile->pfimage) }}" 
                          @endforeach >
-                        
-                        <a href="{{ route('products.show',$product->id) }}" class="p_o_n">
-                            {{ $product->name }} <span  class="span"></span>
+                       
+                        <a href="{{ route('profiles.index')}}" class="p_o_n">
+                           Kaung Myat Soe <span  class="span"></span>
                         </a>
                         <div  class="p_opt">
                             ...
@@ -164,11 +170,16 @@
         
                     <div  class="post_data">
                         <div  class="p_d_tex">
-                        <p>{{ $product->detail }}</p>
+                         
+                        <p>{{ $post->detail }}</p>
+                      
                         </div>
-        
-                            <img  class='p_d_p' src="{{ asset($product->image) }}">
                         
+                            <img  class='p_d_p'
+                           
+                             src="{{ asset($post->image) }}"
+                             >
+                       
                     </div>
                    
                     <div  class="post_react">
@@ -201,6 +212,7 @@
                     
                 </div>
             </div>
+            @endforeach 
         </div>
                 
             

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,9 +17,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('posts.layout');
 });
 
 Route::resource('products', ProductController::class);
+
+Route::resource('profiles', ProfileController::class);
+
+Route::resource('posts', PostController::class);
 
 // Route::get('image-upload', [ ImageUploadController::class, 'imageUpload' ])->name('image.upload');

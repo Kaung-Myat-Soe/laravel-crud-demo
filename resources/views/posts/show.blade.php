@@ -1,8 +1,8 @@
-@extends('products.layout')
+@extends('posts.layout')
 
 @section('content')
     
-<a href="{{ route('products.index') }}">Back</a> 
+<a href="{{ route('posts.index') }}">Back</a> 
     <div id="P2"   class="P_2" >
       <div id="C2"  class="C_1 card_1">
     
@@ -19,7 +19,7 @@
        
        
         <p id="name"  class=" u_n">
-            {{ $product->name }}
+          Kaung Myat Soe
            
             </p>
         <div  class="p-d">

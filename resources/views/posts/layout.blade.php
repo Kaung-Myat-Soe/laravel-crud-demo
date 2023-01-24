@@ -12,10 +12,19 @@
    <style>
    body{
     background-color: #0d0d0e;
-    color: whitesmoke
+    color: whitesmoke;
+    font-family: monospace !important;
    }
 html{
   scroll-behavior: smooth;
+}
+.home{
+  text-align: center;
+  height: 50px;
+  /* width: auto; */
+  font-size: 15px;
+  margin-left: 15px;
+  font-family: monospace;
 }
 .nav_hold{
   position: -webkit-sticky;
@@ -44,7 +53,7 @@ code {
  
 }
 .nav_stick{
-  width: 1263px;
+  width: auto;
   display: grid;
   background-color: #3a3a3a;
   grid-template-columns: repeat(2,1fr);
@@ -182,7 +191,7 @@ code {
   text-align: left;
   /* margin-right: 20px; */
   /* max-width: 30px; */
-  margin-left: 70px;
+  padding-left: 40px;
   margin-top: -60px;
   transition: .25s;
   font-weight: bolder;
@@ -1062,8 +1071,8 @@ img{
   cursor: pointer;
 }
 .pe_txt{
-  width:420px;
-  height: 40px;
+  width:400px;
+  height: 30px;
   padding: 8px 12px;
   margin-left: 5px;
   background-color: #4c4c4c;
@@ -1088,19 +1097,33 @@ img{
 }
                                       /* Left Feed  */
 .left_feed{
-  width: 412px;
+  width: auto;
   border-right: 0px solid #77777760;
 }
 *{
   transition: .3s;
 }
 .pf_chng_btn{
-    background-image:url('https://static.xx.fbcdn.net/rsrc.php/v3/yy/r/GVZOkxm43JO.png');
-    background-position: 0px -136px;
-     background-size: 26px 602px;
-      width: 20px; height: 20px; 
+    /* background-image:url('https://static.xx.fbcdn.net/rsrc.php/v3/yy/r/GVZOkxm43JO.png'); */
+    /* background-position: 0px -136px; */
+     /* background-size: 26px 602px; */
+     border-radius: 50px;
+     background: #333333;
+     text-align: center;
+     /* position: relative; */
+     margin-bottom: -80px;
+     margin-left: 175px;
+     z-index: 1;
+     /* float: right; */
+      width: 40px; height: 40px; 
       background-repeat: no-repeat; 
     display: inline-block;
+}
+.pf_chng_btn p{
+  /* align-content: center; */
+  margin-top: 12px;
+  font-weight: 900;
+  color: #ff0606;
 }
 .lf_me{
   display: grid;
@@ -1488,7 +1511,7 @@ border-radius: 10px;
   text-align: center;
   font-size: larger;
   border-left: 0px solid #77777760;
-  width: 280px;
+  width: auto;
   max-width: 831.750px;
 }
 .liv_vid{
@@ -1841,7 +1864,7 @@ border-radius: 10px;
        <div  class="nav_hold">
         
         </div>
-                
+        <a href="{{ route('posts.index') }}" class="home" style="margin-left: 600px;">Home</a> 
             <div id="b2"  class="body-2"> 
                 @yield('content')
             </div>

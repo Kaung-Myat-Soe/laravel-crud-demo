@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Models\Product;
 use App\Models\Profile;
 use Illuminate\Http\Request;
-use PhpParser\Node\Stmt\Return_;
 
-class ProductController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,11 +15,12 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
+        $posts = Post::latest()->paginate();
         $products = Product::latest()->paginate();
         $profiles = Profile::latest()->paginate();
 
-        return view('products.index',compact('products','profiles'))->with(request()->input('page'));
+        return view('posts.index',compact('products','profiles','posts'))->with(request()->input('page'));
     }
 
     /**
@@ -29,12 +30,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        return view('posts.create');
     }
-
-    
-
-   
 
     /**
      * Store a newly created resource in storage.
@@ -42,86 +39,92 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-   
     public function store(Request $request)
     {
-        //Validate the input
-
         $request->validate([
-            'name' => 'required',
             'detail' => 'required',
             'image' => 'required',
         ]);
 
-        //Create new products
+        //Create new potss
         $requestData = $request->all();
-        $fileName = time().$request->file('image')->getClientOriginalName();
+        $fileName =$request->file('image')->getClientOriginalName();
         $path = $request->file('image')->move($fileName, '/public/images');
         $requestData["image"] =$path;
        
         
-        Product::create($requestData);
+        Post::create($requestData);
       
        
         //Redirect to home
-        return redirect()->route('products.index')->with('success', 'Product created successfully'); 
+        return redirect()->route('posts.index')->with('success', 'Post created successfully'); 
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Product  $product
+     * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show(Post $post)
     {
-        // $products = Product::latest();
         $profiles = Profile::latest()->paginate();
-        return view('products.show', compact('product','profiles'));
+        
+        $products = Product::latest()->paginate();
+        $posts = Post::latest()->paginate();
+        return view('profiles.index', compact('products','profiles','posts'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Product  $product
+     * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit(Post $post)
     {
-        return view('products.edit',compact('products'));
+        return view('posts.edit',compact('post'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Product  $product
+     * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, Post $post)
     {
-        $request->validate([
-            'name' => 'required',
+        $this->validate($request, [
+            'image' => 'required',
             'detail' => 'required',
         ]);
+        $post->update($request->all());
+        $user = Post::find($post);
+$user->image = 'new.jpg';
+$user->duplicates();
+    
 
-        $product->update($request->all());
 
-        return redirect()->route('products.index')
-                        ->with('success','Product updated successfully');
+       
+        
+        
+
+        return redirect()->route('posts.index')
+                        ->with('success','Post updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Product  $product
+     * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(Post $post)
     {
-        $product->delete();
+        $post->delete();
 
-        return redirect()->route('products.index')
-                        ->with('success','Product deleted successfully');
+        return redirect()->route('posts.index')
+                        ->with('success','Post deleted successfully');
     }
 }

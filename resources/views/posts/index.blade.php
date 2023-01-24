@@ -49,7 +49,7 @@
 @endsection --}}
 
 
-@extends('products.layout')
+@extends('posts.layout')
 
 @section('content')
 
@@ -151,7 +151,7 @@
                     @endforeach alt=""> 
                     </a>
                     
-                    <a href="{{ route('products.create') }}" class="pe_txt">
+                    <a href="{{ route('posts.create') }}" class="pe_txt">
                         <span>What's on your mind, Kaung?</span>
                     </a>
                 </div>
@@ -173,13 +173,13 @@
                <p  class="ppl_t"> People you may know</p>
             
         <div  class="mc_hold">
-            @foreach ($products as $product)
+            @foreach ($posts as $post)
         <div  class="mc">
                 <div  class="card2">
                     <div  class="blob"></div>
-                <div  class="img"><img  class="pl_u_p" src="{{ asset($product->image) }}" alt=""> </div>
+                <div  class="img"><img  class="pl_u_p" src="{{ asset($post->image) }}" alt=""> </div>
                 <div  class="info">
-                    <p  class="i_un"> {{ $product->name }}</p>
+                    <p  class="i_un"> Kaung Myat Soe</p>
                     
                 </div>
                 <div  class="m_bu">
@@ -199,31 +199,39 @@
                 </div>
         
         </div>
-        @foreach ($products as $product)
+        @foreach ($posts as $post)
         <div  class="all_post">
            <div class="all_post_data">
 
            
             <div  class="all_p_owner">
-                <img  class="p_o_p"   @foreach ($profiles as $profile )
-                 src="{{ asset($profile->pfimage) }}"
-                 @endforeach >
+                <a href="{{ route('profiles.index') }}">
+                    <img  class="p_o_p"   @foreach ($profiles as $profile )
+                    src="{{ asset($profile->pfimage) }}"
+                    @endforeach >
+                </a>
+              
                 
-                <a href="{{ route('products.show',$product->id) }}" class="p_o_n">
-                    {{ $product->name }} <span  class="span"></span>
+                <a href="{{ route('profiles.index') }}" class="p_o_n">
+                    Kaung Myat Soe <span  class="span"></span>
                 </a>
                 <div  class="p_opt">
-                    ...
+                    <form action="{{ route('posts.destroy',$post->id) }}" method="POST">
+                        <a class="btn btn-primary" href="{{ route('posts.edit',$post->id) }}">Edit</a>
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
                 </div>
                 
             </div>
 
             <div  class="post_data">
                 <div  class="p_d_tex">
-                <p>{{ $product->detail }}</p>
+                <p>{{ $post->detail }}</p>
                 </div>
 
-                    <img  class='p_d_p' src="{{ asset($product->image) }}">
+                    <img  class='p_d_p' src="{{ asset($post->image) }}">
                 
             </div>
            
@@ -268,6 +276,6 @@
     </div>
 </div>
 
-{{ $products->links() }}
+{{ $posts->links() }}
 
 @endsection
