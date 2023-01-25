@@ -100,9 +100,23 @@ class PostController extends Controller
             'detail' => 'required',
         ]);
         $post->update($request->all());
-        $user = Post::find($post);
-$user->image = 'new.jpg';
-$user->duplicates();
+    //     if($request->image != ''){        
+    //         $path ='/public/';
+  
+    //         //code for remove old file
+    //         // if($post->image != ''  && $post->image != null){
+    //         //      $file_old = $path.time().$post->image;
+    //         //      unlink($file_old);
+    //         // }
+  
+    //         //upload new file
+    //         $file = $request->image;
+    //         $filename = $file->getClientOriginalName();
+    //         $file->move($path, $filename);
+  
+    //         //for update in table
+    //         $post->update(['image' => $filename]);
+    //    }
     
 
 
