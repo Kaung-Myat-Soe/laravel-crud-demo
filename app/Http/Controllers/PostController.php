@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\Product;
 use App\Models\Profile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class PostController extends Controller
 {
@@ -20,6 +21,18 @@ class PostController extends Controller
         $products = Product::latest()->paginate();
         $profiles = Profile::latest()->paginate();
 
+        $detail = (session('detail'));
+
+        if($detail>150){
+
+            $html = "<div class='s_m readmore' id='readmore'>...See more</div>
+            <div id='more 'style='display:none;'>{{ ($detail,200)}}</div>";
+
+            // echo $html;
+
+        }
+
+
         return view('posts.index',compact('products','profiles','posts'))->with(request()->input('page'));
     }
 
@@ -28,9 +41,33 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('posts.create');
+        $temp = url()->previous();
+
+        $home = url()->route('posts.index');
+        $userprofile =url()-> route('profiles.index');
+
+        // echo $temp;
+
+        if($temp=='http://127.0.0.1:8000/posts'){
+
+            // echo $home;
+
+            session(['temp' => $home]);
+
+            return view('posts.create');
+
+        }
+         if($temp=='http://127.0.0.1:8000/profiles'){
+
+            // echo $userprofile;
+
+            session(['temp' => $userprofile]);
+
+            return view('posts.create');
+
+        }
     }
 
     /**
@@ -42,22 +79,55 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'detail' => 'required',
-            'image' => 'required',
+            'detail',
+            'image',
         ]);
-
-        //Create new potss
         $requestData = $request->all();
-        $fileName =$request->file('image')->getClientOriginalName();
-        $path = $request->file('image')->move($fileName, '/public/images');
-        $requestData["image"] =$path;
-       
-        
+        //Create new potss
+        if ($request->hasFile('image')) {
+            $requestData = $request->all();
+            $fileName =$request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->move($fileName, '/public/images');
+            $requestData["image"] =$path;
+           
+            
+            Post::create($requestData);
+        }
         Post::create($requestData);
-      
        
-        //Redirect to home
-        return redirect()->route('posts.index')->with('success', 'Post created successfully'); 
+        $detail = 'detail';
+
+        session(['detail' => $detail]);
+
+
+        $previous = (session('temp'));
+
+        // echo 'This is '. $previous ;
+
+        // echo $previous;
+
+       if( $previous=='http://127.0.0.1:8000/posts'){
+
+        $posts = Post::latest()->paginate();
+        $products = Product::latest()->paginate();
+        $profiles = Profile::latest()->paginate();
+        return redirect('http://127.0.0.1:8000/posts');
+            // echo $previous;
+
+       }
+
+       if( $previous=='http://127.0.0.1:8000/profiles'){
+
+        $posts = Post::latest()->paginate();
+        $products = Product::latest()->paginate();
+        $profiles = Profile::latest()->paginate();
+
+        return redirect('http://127.0.0.1:8000/profiles');
+        // echo $previous;
+
+
+       }
+        
     }
 
     /**
@@ -96,8 +166,8 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $this->validate($request, [
-            'image' => 'required',
-            'detail' => 'required',
+            'image' ,
+            'detail',
         ]);
         $post->update($request->all());
     //     if($request->image != ''){        
@@ -124,8 +194,7 @@ class PostController extends Controller
         
         
 
-        return redirect()->route('posts.index')
-                        ->with('success','Post updated successfully');
+    return redirect()->back();
     }
 
     /**
@@ -138,7 +207,29 @@ class PostController extends Controller
     {
         $post->delete();
 
-        return redirect()->route('posts.index')
-                        ->with('success','Post deleted successfully');
+        $previous = url()->previous();
+
+       if( $previous=='http://127.0.0.1:8000/posts'){
+
+        $posts = Post::latest()->paginate();
+        $products = Product::latest()->paginate();
+        $profiles = Profile::latest()->paginate();
+
+        return redirect('http://127.0.0.1:8000/posts');
+            // echo $previous;
+
+       }
+
+       if( $previous=='http://127.0.0.1:8000/profiles'){
+
+        $posts = Post::latest()->paginate();
+        $products = Product::latest()->paginate();
+        $profiles = Profile::latest()->paginate();
+
+        return redirect('http://127.0.0.1:8000/profiles');
+        // echo $previous;
+
+
+       }
     }
 }

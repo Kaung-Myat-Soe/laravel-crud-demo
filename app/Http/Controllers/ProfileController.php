@@ -17,7 +17,18 @@ class ProfileController extends Controller
     {
         $profiles = Profile::latest()->paginate(1);
         $posts = Post::latest()->paginate();
-       
+
+        $detail = (session('detail'));
+
+       if($detail>150){
+
+            $html = "<div class='s_m readmore' id='readmore'>...See more</div>
+            <div id='more 'style='display:none;'>{{ ($detail,200)}}</div>";
+
+            // echo $html;
+
+        }
+
 
         return view('profiles.index',compact('profiles','posts'))->with(request()->input('page'));
     }

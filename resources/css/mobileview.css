@@ -1,0 +1,38 @@
+@media  only screen and (max-width: 520px) {
+
+    .rounded-tlg{
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    
+    .u_p{
+        margin: 0;
+        /* display: grid; */
+        justify-content: center;
+        width:412px;
+        height: 100%;
+        background-color: #333333;
+        /* grid-template-rows: repeat(0,1fr); */
+      
+    }
+    .bp_h{
+        
+        background-color:slategray;
+        overflow: hidden;
+        max-height: 348.146px;
+        justify-content: center;
+        box-shadow:0px -4px 10px slategray;
+    }
+    
+    .u_p_bp{
+        
+        justify-content: center;
+        max-width: 412px;
+        height: 348.146px;
+        background-image: url(../views/profiles/allkpop_1660187951_20220810-blackpink.jpg);
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+    
+}

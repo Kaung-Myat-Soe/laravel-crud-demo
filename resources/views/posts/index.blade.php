@@ -53,6 +53,12 @@
 
 @section('content')
 
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Dashboard') }}
+        </h2>
+    </x-slot>
 
 <div  class="newfeed">
     <div  class="left_feed">
@@ -62,7 +68,7 @@
             src="{{ asset($profile->pfimage) }}"
             @endforeach alt alt="">
             <div  class="lf_n">
-               Kaung Myat Soe
+                {{ Auth::user()->name }}
             </div>
         </a>
 
@@ -177,9 +183,11 @@
         <div  class="mc">
                 <div  class="card2">
                     <div  class="blob"></div>
-                <div  class="img"><img  class="pl_u_p" src="{{ asset($post->image) }}" alt=""> </div>
+                <div  class="img">
+                    <img  class="pl_u_p" src="{{ asset($post->image) }}" alt=""> 
+                </div>
                 <div  class="info">
-                    <p  class="i_un"> Kaung Myat Soe</p>
+                    <p  class="i_un"> {{ Auth::user()->name }}</p>
                     
                 </div>
                 <div  class="m_bu">
@@ -213,14 +221,16 @@
               
                 
                 <a href="{{ route('profiles.index') }}" class="p_o_n">
-                    Kaung Myat Soe <span  class="span"></span>
+                    {{ Auth::user()->name }} <span  class="span"></span>
                 </a>
                 <div  class="p_opt">
-                    <form action="{{ route('posts.destroy',$post->id) }}" method="POST">
-                        <a class="btn btn-primary" href="{{ route('posts.edit',$post->id) }}">Edit</a>
+                    <strong> . . .</strong>
+                   
+                    <form action="{{ route('posts.destroy',$post->id) }}" class="post_action" method="POST">
+                        <a class="ed_post" href="{{ route('posts.edit',$post->id) }}">Edit</a>
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="submit" class="de_post">Delete</button>
                     </form>
                 </div>
                 
@@ -231,7 +241,12 @@
                 <p>{{ $post->detail }}</p>
                 </div>
 
-                    <img  class='p_d_p' src="{{ asset($post->image) }}">
+                @if (file_exists($post->image))
+                <img  class='p_d_p' src="{{ asset($post->image) }}">
+
+               
+                   
+               @endif
                 
             </div>
            
@@ -275,6 +290,8 @@
         Right
     </div>
 </div>
+
+</x-app-layout>
 
 {{ $posts->links() }}
 
